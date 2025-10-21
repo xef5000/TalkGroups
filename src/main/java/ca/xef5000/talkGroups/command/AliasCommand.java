@@ -36,48 +36,46 @@ public class AliasCommand implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ChatColor.RED + "This command can only be used by players.");
-            return true;
-        }
-        
-        Player player = (Player) sender;
         ConfigManager configManager = plugin.getConfigManager();
         
         // Get the TalkGroup for this alias
         TalkGroup group = configManager.getTalkGroupByAlias(alias);
         
         if (group == null) {
-            player.sendMessage(ChatColor.RED + "This TalkGroup no longer exists.");
+            sender.sendMessage(ChatColor.RED + "This TalkGroup no longer exists.");
             return true;
         }
         
         // Check permission
-        if (!player.hasPermission(group.getPermission())) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+        if (!sender.hasPermission(group.getPermission())) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     configManager.getMessage("command.no-permission")));
             return true;
         }
         
         // Check if message was provided
         if (args.length == 0) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                     configManager.getMessage("command.alias.usage", "alias", alias)));
             return true;
         }
-        
-        // Check cooldown
-        PlayerDataManager dataManager = plugin.getPlayerDataManager();
-        PlayerData playerData = dataManager.getPlayerData(player);
-        
-        if (!player.hasPermission("talkgroups.bypass.cooldown") && 
-                playerData.isOnCooldown(group.getId())) {
-            int remaining = playerData.getRemainingCooldown(group.getId());
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    configManager.getMessage("command.cooldown", 
-                            "seconds", String.valueOf(remaining))));
-            return true;
+
+        if (sender instanceof Player player) {
+            // Check cooldown
+            PlayerDataManager dataManager = plugin.getPlayerDataManager();
+            PlayerData playerData = dataManager.getPlayerData(player);
+
+            if (!player.hasPermission("talkgroups.bypass.cooldown") &&
+                    playerData.isOnCooldown(group.getId())) {
+                int remaining = playerData.getRemainingCooldown(group.getId());
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        configManager.getMessage("command.cooldown",
+                                "seconds", String.valueOf(remaining))));
+                return true;
+            }
         }
+
+
         
         // Build the message
         StringBuilder messageBuilder = new StringBuilder();
@@ -87,11 +85,15 @@ public class AliasCommand implements CommandExecutor {
         String message = messageBuilder.toString().trim();
         
         // Send the message to all players with permission
-        sendToChannel(group, player, message);
-        
-        // Set cooldown
-        if (group.getCooldown() > 0 && !player.hasPermission("talkgroups.bypass.cooldown")) {
-            playerData.setCooldown(group.getId(), group.getCooldown());
+        sendToChannel(group, sender, message);
+
+        if (sender instanceof Player player) {
+            // Set cooldown
+            if (group.getCooldown() > 0 && !player.hasPermission("talkgroups.bypass.cooldown")) {
+                PlayerDataManager dataManager = plugin.getPlayerDataManager();
+                PlayerData playerData = dataManager.getPlayerData(player);
+                playerData.setCooldown(group.getId(), group.getCooldown());
+            }
         }
         
         return true;
@@ -104,7 +106,7 @@ public class AliasCommand implements CommandExecutor {
      * @param sender The player sending the message
      * @param message The message content
      */
-    private void sendToChannel(TalkGroup group, Player sender, String message) {
+    private void sendToChannel(TalkGroup group, CommandSender sender, String message) {
         ConfigManager configManager = plugin.getConfigManager();
         PlayerDataManager dataManager = plugin.getPlayerDataManager();
         
@@ -153,12 +155,12 @@ public class AliasCommand implements CommandExecutor {
      * @param message The message content
      * @return The formatted message
      */
-    private String formatMessage(TalkGroup group, Player sender, String message) {
+    private String formatMessage(TalkGroup group, CommandSender sender, String message) {
         String format = plugin.getConfigManager().getMessage("channel.format");
         
         format = format.replace("{prefix}", group.getFormattedPrefix());
         format = format.replace("{suffix}", group.getFormattedSuffix());
-        format = format.replace("{player}", sender.getDisplayName());
+        format = format.replace("{player}", sender.getName());
         format = format.replace("{message}", message);
         
         return ChatColor.translateAlternateColorCodes('&', format);
