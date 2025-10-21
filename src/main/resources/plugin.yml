@@ -1,0 +1,70 @@
+name: TalkGroups
+version: '${version}'
+main: ca.xef5000.talkGroups.TalkGroups
+api-version: '1.20'
+author: xef5000
+description: Advanced chat channel management system with GUI and notifications
+website: https://github.com/xef5000/TalkGroups
+
+commands:
+  talkgroups:
+    description: Main TalkGroups command
+    usage: /<command> [mute|unmute|toggle|reload|list|help]
+    aliases: [tg]
+    permission: talkgroups.use
+
+  # Alias commands will be registered dynamically based on config.yml
+
+permissions:
+  talkgroups.*:
+    description: Grants all TalkGroups permissions
+    children:
+      talkgroups.use: true
+      talkgroups.bypass.cooldown: true
+      talkgroups.admin.*: true
+
+  talkgroups.use:
+    description: Allows using the /talkgroups command
+    default: true
+
+  talkgroups.bypass.cooldown:
+    description: Bypass channel cooldowns
+    default: op
+
+  talkgroups.admin.*:
+    description: Grants all admin permissions
+    children:
+      talkgroups.admin.reload: true
+
+  talkgroups.admin.reload:
+    description: Allows reloading the configuration
+    default: op
+
+  # Channel permissions (examples - add more based on your config.yml)
+  talkgroups.staff:
+    description: Access to the staff channel
+    default: op
+
+  talkgroups.moderator:
+    description: Access to the moderator channel
+    default: op
+
+  talkgroups.admin:
+    description: Access to the admin channel
+    default: op
+
+  talkgroups.vip:
+    description: Access to the VIP channel
+    default: false
+
+  talkgroups.donator:
+    description: Access to the donator channel
+    default: false
+
+  talkgroups.builder:
+    description: Access to the builder channel
+    default: false
+
+  talkgroups.helper:
+    description: Access to the helper channel
+    default: false

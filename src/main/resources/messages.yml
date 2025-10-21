@@ -1,0 +1,52 @@
+# TalkGroups Messages Configuration
+# All messages support color codes using &
+# Available placeholders are listed for each message
+
+# GUI Messages
+gui:
+  title: "&8TalkGroups Manager"
+  previous-page: "&ePrevious Page"
+  next-page: "&eNext Page"
+  close: "&cClose"
+
+# Channel Messages
+channel:
+  muted: "&aYou have muted {channel}&a."
+  unmuted: "&aYou have unmuted {channel}&a."
+  notification: "&e&l! &eYou missed &6{count} &emessage(s) in {channel} &ein the last &6{time}&e."
+  format: "{prefix} &r{player}&7: &f{message}{suffix}"
+
+# Command Messages
+command:
+  no-permission: "&cYou don't have permission to use this command."
+  unknown-subcommand: "&cUnknown subcommand. Use &e/tg help &cfor help."
+  channel-not-found: "&cChannel &e{channel} &cnot found."
+  not-silencable: "&c{channel} &ccannot be muted."
+  cooldown: "&cYou must wait &e{seconds} &csecond(s) before sending another message."
+  
+  mute:
+    usage: "&cUsage: &e/tg mute <channel>"
+  
+  unmute:
+    usage: "&cUsage: &e/tg unmute <channel>"
+  
+  toggle:
+    usage: "&cUsage: &e/tg toggle <channel>"
+  
+  reload:
+    success: "&aTalkGroups configuration reloaded successfully!"
+  
+  list:
+    header: "&8&m----------&r &6TalkGroups &8&m----------"
+  
+  help:
+    header: "&8&m----------&r &6TalkGroups Help &8&m----------"
+  
+  alias:
+    usage: "&cUsage: &e/{alias} <message>"
+
+# Error Messages
+error:
+  database: "&cDatabase error occurred. Please contact an administrator."
+  config: "&cConfiguration error. Please check the console for details."
+

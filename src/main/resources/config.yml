@@ -1,0 +1,101 @@
+# TalkGroups Configuration
+# Define your custom chat channels below
+
+# TalkGroups Configuration Format:
+# talkgroups:
+#   <group-id>:
+#     name: "Display Name"              # The display name (supports color codes with &)
+#     permission: "permission.node"     # Permission required to access this channel
+#     cooldown: 0                       # Cooldown in seconds between messages (0 = no cooldown)
+#     silencable: true                  # Can players mute this channel?
+#     notify: false                     # Send notifications when channel is muted?
+#     notify-delay: 60                  # Delay in seconds between notifications
+#     alias: "command"                  # Command alias (e.g., /staff for staff channel)
+#     prefix: "[Prefix]"                # Chat prefix (defaults to name if not specified)
+#     suffix: ""                        # Chat suffix (optional)
+
+talkgroups:
+  # Staff Channel Example
+  staff:
+    name: "&c&lSTAFF"
+    permission: "talkgroups.staff"
+    cooldown: 0
+    silencable: true
+    notify: true
+    notify-delay: 60
+    alias: "staff"
+    prefix: "&8[&c&lSTAFF&8]"
+    suffix: ""
+  
+  # Moderator Channel Example
+  moderator:
+    name: "&9&lMODERATOR"
+    permission: "talkgroups.moderator"
+    cooldown: 0
+    silencable: true
+    notify: true
+    notify-delay: 60
+    alias: "mod"
+    prefix: "&8[&9&lMOD&8]"
+    suffix: ""
+  
+  # Admin Channel Example
+  admin:
+    name: "&4&lADMIN"
+    permission: "talkgroups.admin"
+    cooldown: 0
+    silencable: false
+    notify: false
+    notify-delay: 60
+    alias: "admin"
+    prefix: "&8[&4&lADMIN&8]"
+    suffix: ""
+  
+  # VIP Channel Example
+  vip:
+    name: "&6&lVIP"
+    permission: "talkgroups.vip"
+    cooldown: 5
+    silencable: true
+    notify: true
+    notify-delay: 120
+    alias: "vip"
+    prefix: "&8[&6&lVIP&8]"
+    suffix: ""
+  
+  # Donator Channel Example
+  donator:
+    name: "&d&lDONATOR"
+    permission: "talkgroups.donator"
+    cooldown: 10
+    silencable: true
+    notify: false
+    notify-delay: 60
+    alias: "donator"
+    prefix: "&8[&d&lDONATOR&8]"
+    suffix: ""
+  
+  # Builder Channel Example
+  builder:
+    name: "&a&lBUILDER"
+    permission: "talkgroups.builder"
+    cooldown: 0
+    silencable: true
+    notify: true
+    notify-delay: 90
+    alias: "builder"
+    prefix: "&8[&a&lBUILDER&8]"
+    suffix: ""
+  
+  # Helper Channel Example
+  helper:
+    name: "&e&lHELPER"
+    permission: "talkgroups.helper"
+    cooldown: 3
+    silencable: true
+    notify: true
+    notify-delay: 60
+    alias: "helper"
+    prefix: "&8[&e&lHELPER&8]"
+    suffix: ""
+
